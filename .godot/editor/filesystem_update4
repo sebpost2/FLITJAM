@@ -1,0 +1,6 @@
+res://Jugadores/MainFile/Escenas/Player.tscn
+res://Componentes/StateMachine.gd
+res://Jugadores/MainFile/Scripts/Player.gd
+res://Jugadores/Alpacas/Escenas/Alpaca.tscn
+res://Componentes/state.tscn
+res://Componentes/state_machine.tscn

@@ -1,0 +1,442 @@
+[gd_scene load_steps=19 format=3 uid="uid://bms7vooa4eghx"]
+
+[ext_resource type="PackedScene" uid="uid://cokj7sefj7wkx" path="res://Componentes/Entidades/vida_componente.tscn" id="2_rnj3h"]
+[ext_resource type="Texture2D" uid="uid://bpoarni8hfs81" path="res://Jugadores/Alpacas/Assets/1720809965035.png" id="2_uial1"]
+[ext_resource type="PackedScene" uid="uid://bv7eo77rlfpxt" path="res://Componentes/Entidades/hitbox_componente.tscn" id="3_m68lq"]
+[ext_resource type="PackedScene" uid="uid://cn5spaa1ntxby" path="res://Componentes/state_machine.tscn" id="4_dnvxs"]
+[ext_resource type="Script" path="res://Jugadores/MainFile/Scripts/PlayerIdle.gd" id="5_e7k4q"]
+[ext_resource type="Script" path="res://Jugadores/MainFile/Scripts/PlayerMovement.gd" id="7_85bii"]
+[ext_resource type="Script" path="res://Jugadores/MainFile/Scripts/PlayerAttack.gd" id="8_qek7h"]
+[ext_resource type="PackedScene" uid="uid://cf50734basigr" path="res://Componentes/Entidades/dead_state.tscn" id="9_w1gs7"]
+[ext_resource type="Script" path="res://Jugadores/MainFile/Scripts/PlayerProyectile.gd" id="10_b5tpa"]
+[ext_resource type="Script" path="res://Jugadores/MainFile/Scripts/PlayerHit.gd" id="13_r5dgg"]
+
+[sub_resource type="GDScript" id="GDScript_6jib4"]
+script/source = "extends CharacterBody2D
+
+@export var instanceExample: PackedScene
+
+@export var strength: int = 0
+@export var agility: int = 0
+@export var aim: int = 0
+
+var Ability_points:int
+signal Abilities(Ability_points)
+var IsDashingPlayer:bool=0
+var IsSmashingPlayer:bool=0
+var SmashingSpeedPlayer:int=100
+var IsParryingPlayer:bool=0
+
+func _physics_process(delta):
+	move_and_slide()
+	PlayerGlobal.Global_Position=position
+	#print(\"Isdashing: \",IsParryingPlayer)
+	if IsSmashingPlayer:
+		velocity.y=SmashingSpeedPlayer
+	elif !IsDashingPlayer and !IsParryingPlayer:
+		velocity.y += PlayerGlobal.get_gravity(velocity.y)*delta
+	else:
+		velocity.y=0
+
+func _input(event: InputEvent) -> void:
+	if(event is InputEventMouseButton and get_tree().current_scene.name == \"World\"):
+		if(event.button_index == MOUSE_BUTTON_LEFT):
+			if(event.pressed):
+				var instance = instanceExample.instantiate()
+				add_sibling(instance)
+				instance.global_position = get_global_mouse_position()
+
+				
+func _ready():
+	#if(Global.spawnPoint.x != 0 and Global.spawnPoint.y != 0):
+	#	self.position = Global.spawnPoint
+	Ability_points=0
+
+func _get_catNip():
+	Ability_points+=1
+	print(\"Got some catNip\")
+	
+func _on_player_dash_is_dashing_sig(IsDashing):
+	IsDashingPlayer=IsDashing
+	
+func _on_player_smash_is_smashing_sig(IsSmashing,SmashingSpeed):
+	IsSmashingPlayer=IsSmashing
+	SmashingSpeedPlayer=SmashingSpeed
+
+func _on_player_parry_is_parrying_sig(IsParrying):
+	IsParryingPlayer=IsParrying
+	PlayerGlobal.isParrying=IsParrying
+	
+'''
+const LIMIT_Y = 500
+
+# 0 Left, 1 Right, 2 Up, 3 Down /////// Idle -> 0I
+
+var dashSpeed=1000
+var dashCooldown=.99
+var normalSpeed=300
+var dashLength=.25
+var currentDirection = \"IdleDown\"
+var zoom = false
+var isAttacking=false
+var isAlive=true
+var isHit=false
+#Mientras mayor sea hitStunValue mayor tiempo de STUN
+var hitstunValue=20
+var hitstun=hitstunValue
+var playerHP=100
+var damagePlayer=50
+var rng = RandomNumberGenerator.new()
+
+@onready var vida_componente=$VidaComponente
+@onready var hitbox_componente=$HitboxComponente/HitboxCollider
+@onready var Golpe1=$Golpe1
+
+@onready var dash=$Dash
+
+@onready var WalkSprite = $WalkSprites
+@onready var IdleSprite = $IdleSprites
+@onready var animationPlayer = $AnimationPlayer
+@onready var AttackSprite = $\"Attack(temporal)\"
+@onready var DeadSprite = $Muerto
+#@onready var Colision=$CollisionShape2D
+@onready var camera = $Camera2D
+@onready var CameraAnimated = $AnimationCamera
+@onready var audioMuerto = $MichiMuerto
+@onready var audioDash = $audioDash
+
+@onready var m1 = $M1
+@onready var m2 = $M2
+@onready var m3 = $M3
+func _ready():
+		animationPlayer.play(\"Right\") 
+		print(\"Player Cargado con Exito\")
+func _physics_process(delta):
+	if isHit:
+		hitbox_componente.disabled=true
+#		Colision.disabled=true
+		hitstun-=1
+		WalkSprite.modulate=Color(10,10,10,10)
+		IdleSprite.modulate=Color(10,10,10,10)
+		AttackSprite.modulate=Color(10,10,10,10)
+		DeadSprite.modulate=Color(10,10,10,10)
+		if hitstun<=0:
+			WalkSprite.modulate=Color(1,1,1,1)
+			IdleSprite.modulate=Color(1,1,1,1)
+			AttackSprite.modulate=Color(1,1,1,1)
+			DeadSprite.modulate=Color(1,1,1,1)
+			isHit=false
+			hitstun=hitstunValue
+	if isAlive:
+		if Input.is_action_just_pressed(\"Dash\") and !dash.is_cooldown():
+			audioDash.playing = true
+			dash.start_dash(dashLength)
+			dash.cool_down(dashCooldown)
+		var SPEED=dashSpeed 
+		if dash.is_dashing():
+			pass
+#			Colision.disabled=true
+			hitbox_componente.disabled=true
+		else:
+			SPEED=normalSpeed
+#			Colision.disabled=false
+			hitbox_componente.disabled=true
+		if(isAttacking!=true):
+			movePlayer(SPEED)
+		attack()
+	else:
+		WalkSprite.visible=false
+		IdleSprite.visible=false
+		AttackSprite.visible=false
+		DeadSprite.visible=true
+
+func take_damage(damage):
+	print(\"Player HP: \"+str(playerHP))
+	audioMuerto.playing = true
+	playerHP-=damage
+	isHit=true
+	AgitarCamera()
+	if playerHP<=0:
+		isAlive=false
+		die()
+
+func die():
+	AttackSprite.visible=true
+	IdleSprite.visible = false
+	WalkSprite.visible = false
+	DeadSprite.visible=false
+	
+	
+	if(currentDirection == \"IdleRight\"):
+		animationPlayer.play(\"DieRight\")
+	else:
+		animationPlayer.play(\"DieLeft\")
+	
+	
+
+func attack():
+	if Input.is_action_pressed(\"ataque\"):
+		
+		
+		var randomNumber = int(rng.randf_range(1,4))
+		if(randomNumber == 1):
+			m1.playing = true
+		elif(randomNumber == 2):
+			m2.playing = true
+		elif(randomNumber == 3):
+			m3.playing = true
+
+		
+		AttackSprite.visible=true
+		IdleSprite.visible = false
+		WalkSprite.visible = false
+		DeadSprite.visible=false
+		if(currentDirection == \"IdleRight\"):
+			animationPlayer.play(\"AttackRight\")
+			AttackSprite.flip_h=false
+			isAttacking=true
+			await animationPlayer.animation_finished
+		elif(currentDirection == \"IdleLeft\"):
+			animationPlayer.play(\"AttackLeft\")
+			AttackSprite.flip_h=true
+			isAttacking=true
+			await animationPlayer.animation_finished
+	else:
+		AttackSprite.visible=false
+		isAttacking=false
+
+func idleToWaleSprite():
+	#print(\"xd\")
+	WalkSprite.visible = IdleSprite.visible
+	IdleSprite.visible = not IdleSprite.visible
+
+func movePlayer(SPEED):
+	var direction_x = Input.get_axis(\"ui_left\", \"ui_right\")
+	var direction_y = Input.get_axis(\"ui_up\", \"ui_down\")
+	DeadSprite.visible =false
+	if direction_x:
+		IdleSprite.visible = false
+		WalkSprite.visible =true
+		if(direction_x == 1 and isAttacking==false):
+			animationPlayer.play(\"Right\") 
+			WalkSprite.flip_h=false
+			IdleSprite.flip_h=false
+			currentDirection=\"IdleRight\"
+		elif(direction_x==-1 and isAttacking==false):
+			animationPlayer.play(\"Left\") 
+			WalkSprite.flip_h=true
+			IdleSprite.flip_h=true
+			currentDirection=\"IdleLeft\"
+		velocity.x = direction_x * SPEED 
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+	if direction_y:
+		WalkSprite.visible =true
+		IdleSprite.visible = false
+		velocity.y =  direction_y * SPEED 
+	else:
+		velocity.y = move_toward(velocity.y, 0, SPEED)
+	if (not Input.is_anything_pressed() and isAttacking==false):
+		IdleSprite.visible = true
+		WalkSprite.visible = false
+		animationPlayer.play(currentDirection)
+	move_and_slide()
+	if(position.y <= LIMIT_Y):
+		position.y = LIMIT_Y
+	if(position.y >= 680):
+		position.y = 680
+	if(position.x <= camera.limit_left-50):
+		position.x = camera.limit_left-50
+	if Input.is_action_just_pressed(\"ui_accept\"):
+		#CameraAnimatetd.play(\"zoom\")
+		ZoomCamera(0.007)# Rango entre [0-0.1]
+		#AgitarCamera()
+		pass	
+	
+#func _on_area_derecha_body_entered(body):
+#	body.take_damage(damagePlayer)
+
+#func _on_area_izquierda_body_entered(body):
+#	body.take_damage(damagePlayer)
+
+func AgitarCamera():
+	
+	CameraAnimated.play(\"agitar\")
+	pass
+	
+func ZoomCamera(levelZoom):
+	
+	var position = 1
+	var value = levelZoom
+		
+	for i in range(30):
+		await get_tree().create_timer(0.01).timeout
+		camera.zoom = Vector2(position+value,position+value)
+		position += value
+	for i in range(30):
+		await get_tree().create_timer(0.01).timeout
+		camera.zoom = Vector2(position-value,position-value)
+		position -= value
+
+
+func _on_hitbox_componente_area_entered(area):
+	pass # Replace with function body.
+'''
+
+
+func _on_dash_check_tile_area_entered(area):
+	pass # Replace with function body.
+"
+
+[sub_resource type="Animation" id="Animation_23kt6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprites:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_47urj"]
+resource_name = "walking"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprites:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6dals"]
+_data = {
+"RESET": SubResource("Animation_23kt6"),
+"walking": SubResource("Animation_47urj")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n2j0g"]
+size = Vector2(2.3, 1.9)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_78lfj"]
+size = Vector2(15.3, 14.85)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xjy7y"]
+size = Vector2(16.9, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c38kp"]
+size = Vector2(4.8, 14.05)
+
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
+position = Vector2(119, 46)
+scale = Vector2(10, 10)
+collision_layer = 3
+script = SubResource("GDScript_6jib4")
+
+[node name="PlayerSprites" type="Sprite2D" parent="."]
+position = Vector2(-1, -0.3)
+scale = Vector2(0.481875, 0.4375)
+texture = ExtResource("2_uial1")
+hframes = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_6dals")
+}
+
+[node name="ColisionBackground" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColisionBackground"]
+position = Vector2(-0.999999, -1.5)
+shape = SubResource("RectangleShape2D_n2j0g")
+
+[node name="VidaComponente" parent="." instance=ExtResource("2_rnj3h")]
+MAX_VIDA = 10000.0
+
+[node name="HitboxComponente" parent="." node_paths=PackedStringArray("vida_componente") instance=ExtResource("3_m68lq")]
+vida_componente = NodePath("../VidaComponente")
+
+[node name="HitboxPlayer" type="CollisionShape2D" parent="HitboxComponente"]
+position = Vector2(-0.6, -1.3)
+shape = SubResource("RectangleShape2D_78lfj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.05, -1.2)
+shape = SubResource("RectangleShape2D_xjy7y")
+
+[node name="StateMachine" parent="." node_paths=PackedStringArray("initial_state") instance=ExtResource("4_dnvxs")]
+initial_state = NodePath("PlayerIdle")
+
+[node name="PlayerIdle" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("PlayerAnimation", "PlayerSprite")]
+script = ExtResource("5_e7k4q")
+PlayerAnimation = NodePath("../../AnimationPlayer")
+PlayerSprite = NodePath("../../PlayerSprites")
+
+[node name="PlayerMovement" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("PlayerSprite", "AnimationPl")]
+script = ExtResource("7_85bii")
+PlayerSprite = NodePath("../../PlayerSprites")
+AnimationPl = NodePath("../../AnimationPlayer")
+PlayerSpeed = 340.0
+jump_height = 300.0
+jump_time_peak = 0.5
+jump_time_descent = 0.4
+
+[node name="PlayerAttackClaw" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("PlayerAnimation", "Player_sprite")]
+script = ExtResource("8_qek7h")
+PlayerAnimation = NodePath("../../AnimationPlayer")
+Player_sprite = NodePath("../../PlayerSprites")
+
+[node name="AttackClawHitbox" type="Area2D" parent="StateMachine/PlayerAttackClaw"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="AttackClawCollider" type="CollisionShape2D" parent="StateMachine/PlayerAttackClaw/AttackClawHitbox"]
+position = Vector2(10.4, -1.1)
+shape = SubResource("RectangleShape2D_c38kp")
+disabled = true
+
+[node name="AttackClawTimer" type="Timer" parent="StateMachine/PlayerAttackClaw"]
+wait_time = 0.3
+one_shot = true
+
+[node name="DeadState" parent="StateMachine" node_paths=PackedStringArray("Machine") instance=ExtResource("9_w1gs7")]
+Machine = NodePath("..")
+
+[node name="PlayerProyectile" type="Node2D" parent="StateMachine"]
+script = ExtResource("10_b5tpa")
+
+[node name="Bulletposition" type="Marker2D" parent="StateMachine/PlayerProyectile"]
+position = Vector2(15.1, -1.7)
+
+[node name="ProyectileCooldown" type="Timer" parent="StateMachine/PlayerProyectile"]
+wait_time = 0.45
+one_shot = true
+
+[node name="PlayerHit" type="Node2D" parent="StateMachine"]
+script = ExtResource("13_r5dgg")
+
+[node name="StunTime" type="Timer" parent="StateMachine/PlayerHit"]
+wait_time = 0.5
+one_shot = true
+
+[node name="PlayerAttackSprites" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(2.7125, -0.4)
+scale = Vector2(0.466146, 0.403125)
+hframes = 2
+
+[connection signal="area_entered" from="StateMachine/PlayerAttackClaw/AttackClawHitbox" to="StateMachine/PlayerAttackClaw" method="_on_attack_claw_hitbox_area_entered"]
+[connection signal="timeout" from="StateMachine/PlayerAttackClaw/AttackClawTimer" to="StateMachine/PlayerAttackClaw" method="_on_attack_claw_timer_timeout"]
+[connection signal="timeout" from="StateMachine/PlayerHit/StunTime" to="StateMachine/PlayerHit" method="_on_stun_time_timeout"]
