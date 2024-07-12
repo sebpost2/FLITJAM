@@ -25,6 +25,9 @@ func Enter():
 		bullet.direction=Vector2.LEFT
 		$Bulletposition.position.x=-15
 	bullet.global_position=$Bulletposition.global_position
+	#initial_position = $Bulletposition.position
+	#$Bulletposition.initial_position[0]=PlayerGlobal.Global_Position.x
+	#$Bulletposition.initial_position[1]=PlayerGlobal.Global_Position.y
 	get_tree().get_root().add_child(bullet)
 	Shooting=0
 

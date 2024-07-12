@@ -22,7 +22,7 @@ func Update(_delta: float):
 		Transitioned.emit(self,"PlayerAttackClaw")
 	if Input.is_action_just_pressed("PlayerProyectil") and !Proyectile.is_cooldown():
 		Transitioned.emit(self,"PlayerProyectile") 
-	if Input.is_action_just_pressed("PlayerParry") and !Parry.is_cooldown():
+'''	if Input.is_action_just_pressed("PlayerParry") and !Parry.is_cooldown():
 		Transitioned.emit(self,"PlayerParry")
 	if Input.is_action_just_pressed("PlayerSmash") :
-		Transitioned.emit(self,"PlayerSmash")
+		Transitioned.emit(self,"PlayerSmash")'''

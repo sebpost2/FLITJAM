@@ -4,3 +4,7 @@ res://Mundo/mundo.tscn
 res://Jugadores/MainFile/Escenas/Player.tscn
 res://Componentes/state.tscn
 res://Componentes/state_machine.tscn
+res://Jugadores/MainFile/Scripts/PlayerMovement.gd
+res://Jugadores/MainFile/Scripts/PlayerIdle.gd
+res://Jugadores/MainFile/Scripts/PlayerProyectile.gd
+res://Componentes/Entidades/proyectil_component.gd

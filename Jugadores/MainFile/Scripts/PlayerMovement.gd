@@ -49,11 +49,11 @@ func Update(_delta: float):
 		Transitioned.emit(self,"PlayerProyectile")
 	if (not Input.is_anything_pressed() and player.is_on_floor()):
 		Transitioned.emit(self,"PlayerIdle")
-	if Input.is_action_just_pressed("Dash") and !Dash.is_cooldown() and (PlayerGlobal.direction_x!=0 or PlayerGlobal.direction_y!=0):
+	'''if Input.is_action_just_pressed("Dash") and !Dash.is_cooldown() and (PlayerGlobal.direction_x!=0 or PlayerGlobal.direction_y!=0):
 		NumDirections.emit(PlayerGlobal.direction_x,PlayerGlobal.direction_y)
 		Transitioned.emit(self,"PlayerDash")
 	if Input.is_action_just_pressed("PlayerParry") and !Parry.is_cooldown():
 		player.velocity.x = PlayerGlobal.direction_x * (PlayerSpeed/3) 
 		Transitioned.emit(self,"PlayerParry")
 	if Input.is_action_just_pressed("PlayerSmash"):
-		Transitioned.emit(self,"PlayerSmash")
+		Transitioned.emit(self,"PlayerSmash")'''
