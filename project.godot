@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Workms_peruano"
-run/main_scene="res://Mundo/mundo.tscn"
+run/main_scene="res://Jugadores/Alpacas/Escenas/Alpaca.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://FLITJAM/icon.svg"
+
+[autoload]
+
+PlayerGlobal="*res://Global/Player_global.gd"
 
 [display]
 
