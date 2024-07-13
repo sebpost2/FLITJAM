@@ -10,6 +10,8 @@ size = Vector2(64, 63)
 
 [node name="ProyectilComponent" type="CharacterBody2D"]
 script = ExtResource("1_g45mb")
+attack_damage = null
+knockback_force = null
 
 [node name="ProyectilSprite" type="Sprite2D" parent="."]
 position = Vector2(2, 3.8147e-06)
@@ -26,8 +28,6 @@ shape = SubResource("RectangleShape2D_ioltd")
 
 [node name="BackCollision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_0eo1o")
-
-[node name="Line2D" type="Line2D" parent="."]
 
 [connection signal="screen_exited" from="ProyectileVisibility" to="." method="_on_proyectile_visibility_screen_exited"]
 [connection signal="area_entered" from="ProyectilArea" to="." method="_on_proyectil_area_area_entered"]

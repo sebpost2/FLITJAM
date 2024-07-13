@@ -27,7 +27,5 @@ shape = SubResource("RectangleShape2D_ioltd")
 [node name="BackCollision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_0eo1o")
 
-[node name="Line2D" type="Line2D" parent="."]
-
 [connection signal="screen_exited" from="ProyectileVisibility" to="." method="_on_proyectile_visibility_screen_exited"]
 [connection signal="area_entered" from="ProyectilArea" to="." method="_on_proyectil_area_area_entered"]
