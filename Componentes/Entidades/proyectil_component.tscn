@@ -1,10 +1,10 @@
 [gd_scene load_steps=5 format=3 uid="uid://ba40047iccec0"]
 
 [ext_resource type="Script" path="res://Componentes/Entidades/proyectil_component.gd" id="1_g45mb"]
-[ext_resource type="Texture2D" uid="uid://dly3n7d5ajwsb" path="res://icon.svg" id="1_qupwg"]
+[ext_resource type="Texture2D" uid="uid://qt043i6tpng5" path="res://Jugadores/Weapon/misil.png" id="2_fywyb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ioltd"]
-size = Vector2(64, 63)
+size = Vector2(48, 17.75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0eo1o"]
 
@@ -13,21 +13,24 @@ script = ExtResource("1_g45mb")
 
 [node name="ProyectilSprite" type="Sprite2D" parent="."]
 position = Vector2(2, 3.8147e-06)
-scale = Vector2(0.445313, 0.46875)
-texture = ExtResource("1_qupwg")
+scale = Vector2(3, 3.162)
+texture = ExtResource("2_fywyb")
 
 [node name="ProyectileVisibility" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -1)
 
 [node name="ProyectilArea" type="Area2D" parent="."]
 
 [node name="ProyectilCollider" type="CollisionShape2D" parent="ProyectilArea"]
-position = Vector2(3, -1)
+position = Vector2(2, -1)
 shape = SubResource("RectangleShape2D_ioltd")
 
 [node name="BackCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_0eo1o")
 
 [node name="Line2D" type="Line2D" parent="."]
 
 [connection signal="screen_exited" from="ProyectileVisibility" to="." method="_on_proyectile_visibility_screen_exited"]
 [connection signal="area_entered" from="ProyectilArea" to="." method="_on_proyectil_area_area_entered"]
+[connection signal="body_entered" from="ProyectilArea" to="." method="_on_proyectil_area_body_entered"]
