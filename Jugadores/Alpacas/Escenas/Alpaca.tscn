@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bms7vooa4eghx"]
+[gd_scene load_steps=23 format=3 uid="uid://bms7vooa4eghx"]
 
 [ext_resource type="PackedScene" uid="uid://cokj7sefj7wkx" path="res://Componentes/Entidades/vida_componente.tscn" id="2_rnj3h"]
 [ext_resource type="Texture2D" uid="uid://bpoarni8hfs81" path="res://Jugadores/Alpacas/Assets/1720809965035.png" id="2_uial1"]
@@ -9,6 +9,10 @@
 [ext_resource type="Script" path="res://Jugadores/MainFile/Scripts/PlayerAttack.gd" id="8_qek7h"]
 [ext_resource type="PackedScene" uid="uid://cf50734basigr" path="res://Componentes/Entidades/dead_state.tscn" id="9_w1gs7"]
 [ext_resource type="Script" path="res://Jugadores/MainFile/Scripts/PlayerProyectile.gd" id="10_b5tpa"]
+[ext_resource type="AudioStream" uid="uid://jubebhsg3r0j" path="res://Mundo/Audio/bazuca-explosion.mp3" id="10_eny30"]
+[ext_resource type="Texture2D" uid="uid://cx21l1gest54p" path="res://Jugadores/Vida/0.png" id="11_c85yq"]
+[ext_resource type="Texture2D" uid="uid://d27p8n6jtgm72" path="res://Jugadores/Vida/1.png" id="12_i3fmy"]
+[ext_resource type="Texture2D" uid="uid://1vjatminpo6g" path="res://Jugadores/Vida/2.png" id="13_3jeat"]
 [ext_resource type="Script" path="res://Jugadores/MainFile/Scripts/PlayerHit.gd" id="13_r5dgg"]
 
 [sub_resource type="GDScript" id="GDScript_6jib4"]
@@ -19,6 +23,7 @@ script/source = "extends CharacterBody2D
 @export var strength: int = 0
 @export var agility: int = 0
 @export var aim: int = 0
+@export var canMove: bool = 0
 
 var Ability_points:int
 signal Abilities(Ability_points)
@@ -326,17 +331,17 @@ _data = {
 size = Vector2(2.3, 1.9)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_78lfj"]
-size = Vector2(15.3, 14.85)
+size = Vector2(12.625, 14.85)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xjy7y"]
-size = Vector2(16.9, 16)
+size = Vector2(10.4, 12.6)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c38kp"]
 size = Vector2(4.8, 14.05)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 position = Vector2(119, 46)
-scale = Vector2(10, 10)
+scale = Vector2(5, 5)
 collision_layer = 3
 script = SubResource("GDScript_6jib4")
 
@@ -367,11 +372,11 @@ MAX_VIDA = 10000.0
 vida_componente = NodePath("../VidaComponente")
 
 [node name="HitboxPlayer" type="CollisionShape2D" parent="HitboxComponente"]
-position = Vector2(-0.6, -1.3)
+position = Vector2(-1.2875, -0.400002)
 shape = SubResource("RectangleShape2D_78lfj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1.05, -1.2)
+position = Vector2(-1.2, -0.100002)
 shape = SubResource("RectangleShape2D_xjy7y")
 
 [node name="StateMachine" parent="." node_paths=PackedStringArray("initial_state") instance=ExtResource("4_dnvxs")]
@@ -386,8 +391,8 @@ PlayerSprite = NodePath("../../PlayerSprites")
 script = ExtResource("7_85bii")
 PlayerSprite = NodePath("../../PlayerSprites")
 AnimationPl = NodePath("../../AnimationPlayer")
-PlayerSpeed = 340.0
-jump_height = 300.0
+PlayerSpeed = 175.0
+jump_height = 150.0
 jump_time_peak = 0.5
 jump_time_descent = 0.4
 
@@ -422,6 +427,10 @@ position = Vector2(15.1, -1.7)
 wait_time = 0.45
 one_shot = true
 
+[node name="Disparo" type="AudioStreamPlayer" parent="StateMachine/PlayerProyectile"]
+stream = ExtResource("10_eny30")
+volume_db = -15.0
+
 [node name="PlayerHit" type="Node2D" parent="StateMachine"]
 script = ExtResource("13_r5dgg")
 
@@ -434,6 +443,23 @@ visible = false
 position = Vector2(2.7125, -0.4)
 scale = Vector2(0.466146, 0.403125)
 hframes = 2
+
+[node name="Vida" type="Node2D" parent="."]
+
+[node name="Sprite2D3" type="Sprite2D" parent="Vida"]
+position = Vector2(-1.4, -6.6)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("13_3jeat")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Vida"]
+position = Vector2(-1.4, -6.6)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("12_i3fmy")
+
+[node name="Sprite2D" type="Sprite2D" parent="Vida"]
+position = Vector2(-1.4, -6.6)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("11_c85yq")
 
 [connection signal="area_entered" from="StateMachine/PlayerAttackClaw/AttackClawHitbox" to="StateMachine/PlayerAttackClaw" method="_on_attack_claw_hitbox_area_entered"]
 [connection signal="timeout" from="StateMachine/PlayerAttackClaw/AttackClawTimer" to="StateMachine/PlayerAttackClaw" method="_on_attack_claw_timer_timeout"]

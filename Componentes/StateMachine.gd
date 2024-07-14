@@ -14,6 +14,7 @@ func _ready():
 			#print("child: ",child.name)
 			states[child.name.to_lower()]=child
 			child.Transitioned.connect(on_child_transition)
+			
 	if initial_state:
 		initial_state.Enter()
 		current_state=initial_state
@@ -35,10 +36,9 @@ func _curr_state():
 func on_child_transition(state, new_state_name):
 	if state != current_state:
 		return 
-		
 	var new_state = states.get(new_state_name.to_lower())
 	if !new_state:
 		return
-	
 	new_state.Enter()
 	current_state=new_state
+

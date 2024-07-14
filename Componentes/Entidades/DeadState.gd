@@ -5,12 +5,17 @@ class_name DeadState
 @export var Machine:StateMachine
 
 func Enter():
-	pass
+	
+	if(get_parent().get_parent().get_parent().name == "Llamas"):
+		get_parent().get_parent().get_parent().NumAlpaca-=1	
+	if(get_parent().get_parent().get_parent().name == "Cuys"):
+		get_parent().get_parent().get_parent().NumCuys-=1
+	get_parent().get_parent().queue_free()
+	
 
 func Update(_delta: float):
 	pass
 
 func _on_vida_componente_dead_player():
-	print("Dead")
 	Transitioned.emit(Machine._curr_state(),"DeadState")
-	Enter()
+	

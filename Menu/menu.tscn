@@ -1,0 +1,152 @@
+[gd_scene load_steps=12 format=3 uid="uid://bk4l8g54uw2j8"]
+
+[ext_resource type="Script" path="res://Game/UI/Scripts/menuScript.gd" id="1_avtgi"]
+[ext_resource type="Texture2D" uid="uid://bas7ubv6l13c1" path="res://Menu/Assets/perukistan.png" id="2_dow4h"]
+[ext_resource type="Texture2D" uid="uid://ccbhgckm5xgdl" path="res://Menu/Assets/Play.png" id="2_i1cqf"]
+[ext_resource type="FontFile" uid="uid://c8chfy6kjhgc5" path="res://Mundo/Font/m5x7.ttf" id="3_8ek3o"]
+[ext_resource type="Texture2D" uid="uid://bl8wfiakjijlw" path="res://Menu/Assets/Exit.png" id="3_w5wdq"]
+[ext_resource type="Texture2D" uid="uid://rtcch7b4dm0r" path="res://Menu/Assets/chancla.png" id="5_w3sqr"]
+[ext_resource type="AudioStream" uid="uid://ojremupxlee8" path="res://Menu/Audio/menu.mp3" id="6_rvhpi"]
+[ext_resource type="AudioStream" uid="uid://00kihno36eos" path="res://Menu/Audio/select.mp3" id="7_cjwrt"]
+[ext_resource type="Texture2D" uid="uid://cprkqke6vicu3" path="res://Menu/Assets/senati-logo.png" id="8_6e36j"]
+[ext_resource type="Texture2D" uid="uid://dj8tiwdfmgab" path="res://Menu/Assets/SanPablo.png" id="9_lq21j"]
+[ext_resource type="Texture2D" uid="uid://c52osbbmfq4bq" path="res://Menu/Assets/premios.png" id="10_78f5w"]
+
+[node name="Menu" type="Node2D"]
+script = ExtResource("1_avtgi")
+
+[node name="Favicon" type="Sprite2D" parent="."]
+position = Vector2(617, 164)
+scale = Vector2(0.782814, 0.805577)
+texture = ExtResource("2_dow4h")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 36.0
+offset_top = 405.0
+offset_right = 2790.0
+offset_bottom = 1605.0
+scale = Vector2(0.25, 0.25)
+alignment = 1
+
+[node name="botonStart" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 2
+theme_override_font_sizes/font_size = 140
+text = "Start Game"
+
+[node name="botonQuit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 140
+text = "Quit"
+
+[node name="datos" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 100
+text = "a
+
+"
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/datos"]
+visible = false
+z_index = 2
+layout_mode = 0
+offset_left = -200.0
+offset_top = -2798.0
+offset_right = 5172.0
+offset_bottom = 438.0
+color = Color(0, 0, 0, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/datos"]
+visible = false
+z_index = 3
+layout_mode = 0
+offset_left = 556.0
+offset_top = -2218.0
+offset_right = 4760.0
+offset_bottom = 68.0
+theme_override_fonts/normal_font = ExtResource("3_8ek3o")
+theme_override_font_sizes/normal_font_size = 300
+text = "			Equipo de Desarrollo
+
+
+Justo Perez 
+Fabian Concha
+Paolo Delgado
+Sebastigo Postigo
+Giulia Naval
+Daniela Concha
+"
+
+[node name="play" type="Sprite2D" parent="VBoxContainer"]
+position = Vector2(2412, 112)
+scale = Vector2(34.8594, 26.711)
+texture = ExtResource("2_i1cqf")
+
+[node name="exit" type="Sprite2D" parent="VBoxContainer"]
+position = Vector2(2400, 780)
+scale = Vector2(33.6328, 27.0547)
+texture = ExtResource("3_w5wdq")
+
+[node name="chancla" type="Sprite2D" parent="VBoxContainer"]
+position = Vector2(1788, 96)
+scale = Vector2(19, 19.875)
+texture = ExtResource("5_w3sqr")
+
+[node name="Creditos" type="Sprite2D" parent="VBoxContainer"]
+position = Vector2(220, 940)
+scale = Vector2(37.375, 36.875)
+texture = ExtResource("10_78f5w")
+
+[node name="AudioPlay" type="AudioStreamPlayer" parent="."]
+process_mode = 4
+process_thread_group = 2
+process_thread_group_order = 0
+process_thread_messages = 0
+stream = ExtResource("6_rvhpi")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 962.0
+offset_top = 422.0
+offset_right = 3030.0
+offset_bottom = 2060.0
+scale = Vector2(0.199746, 0.213534)
+theme_override_font_sizes/normal_font_size = 150
+text = "Controls:
+	Move arrow keys
+	\"X\" Change Player 
+	\"C\" Use Weapon
+	\"Intro\" Select
+"
+fit_content = true
+scroll_active = false
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+z_index = -1
+offset_left = -41.0
+offset_top = -39.0
+offset_right = 1360.0
+offset_bottom = 735.0
+color = Color(0, 0, 0, 1)
+
+[node name="Botones" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_cjwrt")
+volume_db = -5.725
+
+[node name="Senati" type="Sprite2D" parent="."]
+position = Vector2(92, 122)
+scale = Vector2(4.84375, 5.53125)
+texture = ExtResource("8_6e36j")
+
+[node name="UCSP" type="Sprite2D" parent="."]
+position = Vector2(1169.25, 123.75)
+scale = Vector2(2.83594, 3.13281)
+texture = ExtResource("9_lq21j")
+
+[connection signal="pressed" from="VBoxContainer/botonStart" to="." method="_on_boton_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/botonQuit" to="." method="_on_boton_quit_pressed"]
+[connection signal="pressed" from="VBoxContainer/datos" to="." method="_on_datos_pressed"]

@@ -370,7 +370,7 @@ size = Vector2(4.8, 14.05)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 position = Vector2(119, 46)
-scale = Vector2(10, 10)
+scale = Vector2(5, 5)
 collision_layer = 3
 script = SubResource("GDScript_6jib4")
 

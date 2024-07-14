@@ -9,10 +9,11 @@ class_name PlayerIdle
 
 func Enter():
 	Player.velocity.x=0
-	if(PlayerGlobal.last_direction_x == 1):
-		PlayerSprite.flip_h=false
-	elif(PlayerGlobal.last_direction_x==-1):
-		PlayerSprite.flip_h=true
+	if(get_parent().get_parent().canMove == true):
+		if(PlayerGlobal.last_direction_x == 1):
+			PlayerSprite.flip_h=false
+		elif(PlayerGlobal.last_direction_x==-1):
+			PlayerSprite.flip_h=true
 	PlayerAnimation.play("Player_idle") 
 
 func Update(_delta: float):	
