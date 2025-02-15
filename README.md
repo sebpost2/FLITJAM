@@ -5,7 +5,7 @@
 **Resultado:** 2º lugar
 
 ## Descripción
-FlitJam – Unnamed Game es un juego de estrategia y combate inspirado en *Worms*, pero con un toque totalmente peruano. Desarrollado durante el evento FlitJam, nuestro objetivo era crear en tan solo dos días un juego dinámico y original que capturara la esencia de los clásicos de combate con artillería y terrenos destructibles, incorporando elementos culturales peruanos.
+Para este evento FlitJam, creamos un juego de estrategia y combate inspirado en *Worms*, pero con un toque totalmente peruano. Desarrollado durante el evento FlitJam, nuestro objetivo era crear en tan solo dos días un juego dinámico y original que capturara la esencia de los clásicos de combate con artillería y terrenos destructibles, incorporando elementos culturales peruanos.
 
 El juego presenta niveles diseñados para combinar acción y estrategia, donde el jugador debe maniobrar y enfrentarse a diferentes enemigos en escenarios únicos. Aunque se planearon cuatro niveles en total, logramos completar y pulir un nivel con mecánicas de combate, enemigos variados y un jefe final.
 
