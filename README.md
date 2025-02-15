@@ -1,4 +1,4 @@
-# FlitJam – Unnamed Game
+# FlitJam
 
 **Evento:** FlitJam  
 **Plazo:** 2 días  
