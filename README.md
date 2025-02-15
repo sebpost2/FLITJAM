@@ -25,3 +25,9 @@ El juego presenta niveles diseñados para combinar acción y estrategia, donde e
    ```bash
    git clone https://github.com/tu-usuario/flitjam-unnamed-game.git
    cd flitjam-unnamed-game
+2. Abre el proyecto en Godot.
+3. Ejecuta el juego desde el editor de Godot.
+
+
+## Licencia
+Este proyecto está licenciado bajo la Licencia MIT.
