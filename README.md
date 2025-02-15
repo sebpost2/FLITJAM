@@ -1,35 +1,41 @@
-README para el Proyecto FlitJam
-FlitJam – Versión Peruana
-Descripción
-FlitJam – Versión Peruana es un juego de estrategia y acción desarrollado para el evento FlitJam, en el que tuvimos solo 2 días para crear un proyecto. Inspirado en el clásico "Worms" y adaptado a una temática peruana, el juego propone batallas divertidas y caóticas donde los jugadores controlan equipos de personajes con habilidades únicas en escenarios llenos de humor y desafíos.
+### **README para el Proyecto**
 
-Características
+```markdown
+# FlitJam – [Juego sin nombre]
 
-Jugabilidad Dinámica: Combate por turnos y física estilo "Worms" con un giro peruano.
-Niveles Desafiantes: Se diseñaron múltiples escenarios con obstáculos y enemigos variados, culminando en enfrentamientos contra jefes.
-Estética Pixel Art: Gráficos realizados por un talentoso equipo de 4 artistas, que aporta un estilo retro y distintivo.
-Multijugador Local: Opciones para competir con amigos en batallas estratégicas.
-Tecnologías Utilizadas
+## Descripción
+FlitJam es un juego desarrollado para el evento FlitJam, donde en tan solo 2 días creamos un juego inspirado en "Worms" pero con una identidad peruana. El juego se basa en el combate táctico y la estrategia, ofreciendo niveles intensos y cortos en los que los jugadores deben superar obstáculos y enfrentarse a enemigos. Nuestro objetivo era crear una experiencia divertida y competitiva, integrando mecánicas de acción con un estilo visual único de pixel art.
 
-Godot Engine: Plataforma utilizada para el desarrollo del juego.
-GDScript: Lenguaje de programación para implementar la lógica del juego.
-Equipo
+## Características
+- **Inspirado en Worms:** Combate táctico y gestión estratégica de movimientos y ataques.
+- **Versión Peruana:** Adaptación cultural que incorpora elementos gráficos y temáticos peruanos.
+- **Desarrollo en Godot:** Proyecto realizado completamente en el motor Godot, permitiendo un desarrollo ágil.
+- **Trabajo en Equipo:** Colaboración de 4 artistas de pixel art y 2 programadores.
+- **Hackathon:** Proyecto presentado en FlitJam, logrando el segundo lugar.
 
-Equipo de Pixel Art: 4 artistas encargados de la creación de los gráficos y animaciones.
-Equipo de Programación: 2 programadores (formé parte del equipo de programación) encargados de desarrollar la mecánica y lógica del juego.
-Resultados
+## Instalación
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/tu-usuario/flitjam-proyecto.git
+   cd flitjam-proyecto
+   ```
+2. Abre el proyecto en el motor **Godot**.
+3. Ejecuta el proyecto desde el editor de Godot.
 
-Obtuvimos el segundo lugar en el evento FlitJam, destacándonos por la originalidad y la ejecución técnica del juego.
-Instalación y Ejecución
+## Cómo Jugar
+- **Controles:**  
+  Utiliza las teclas de dirección para mover al personaje y ejecutar acciones de ataque.
+- **Objetivo:**  
+  Supera cada nivel enfrentándote a enemigos y jefes en escenarios tácticos.
+- **Experiencia de Juego:**  
+  Diseñado para ofrecer una experiencia rápida y competitiva, perfecta para competencias y eventos.
 
-Clona el repositorio:
-bash
-Copiar
-git clone https://github.com/tu-usuario/tu-repo-flitjam.git
-Abre el proyecto en el Godot Engine (versión compatible).
-Ejecuta la escena principal para iniciar el juego.
-Contribuciones
-Las contribuciones son bienvenidas. Si deseas proponer mejoras o realizar algún aporte, por favor abre un issue o envía un pull request.
+## Contribuciones
+Las contribuciones son bienvenidas. Si deseas sugerir mejoras o corregir errores, abre un issue o envía un pull request.
 
-Licencia
-Este proyecto está licenciado bajo la MIT License.
+## Licencia
+Este proyecto está licenciado bajo la [MIT License](LICENSE).
+
+## Contacto
+Para consultas o comentarios, por favor contacta a [tu-email@example.com].
+```
